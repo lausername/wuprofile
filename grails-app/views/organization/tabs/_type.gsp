@@ -1,5 +1,4 @@
 <%@ page import="com.webbfontaine.grails.plugins.utils.TypesCastUtils;" %>
-
 <bootstrap:div id="typeContainer">
     <bootstrap:grid grid="2-2-2">
         <wf:radio name="impactOnRevenue" id="isCompany" value="true"
@@ -11,21 +10,26 @@
     <bootstrap:grid grid="12-12-12">
         <wf:radio name="impactOnRevenue" id="isBank" value="true"
                   class="rar-radio"
-                  checked="${orgInstance?.isCompany()}"/>
+                  checked="${orgInstance?.isBank()}"/>
         <g:message code="org.account.type.bank.label" default="Bank"/>
     </bootstrap:grid>
 
     <bootstrap:grid grid="12-12-12">
         <wf:radio name="impactOnRevenue" id="isInsurer" value="true"
                   class="rar-radio"
-                  checked="${orgInstance?.isCompany()}"/>
+                  checked="${orgInstance?.isInsurer()}"/>
         <g:message code="org.account.type.insurer.label" default="Insurer"/>
     </bootstrap:grid>
 
     <bootstrap:grid grid="12-12-12">
         <wf:radio name="impactOnRevenue" id="isGovAgency" value="true"
                   class="rar-radio"
-                  checked="${orgInstance?.isCompany()}"/>
+                  checked="${orgInstance?.isGovAgency()}"/>
         <g:message code="org.account.type.govagency.label" default="Government Agency"/>
     </bootstrap:grid>
+
+    <button class="btn" onclick="nextTab('PROFILE');
+    return false;"><g:message code="next.label.button" default="Reset"/></button>
+
+
 </bootstrap:div>

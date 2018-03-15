@@ -7,6 +7,14 @@
 //
 //= require jquery-2.2.0.min
 //= require bootstrap
+//= require layout-main
+//= require wf-utils/classy
+//= require wf-taglibs/jquery-validate
+//= require wf-taglibs/autocomplete
+//= require wf-utils/confirmDialogManipulation
+//= require wf-utils/confirm-dialog-box
+//= require wf-utils/utils-ci
+//= require wf-utils/upload
 //= require_tree .
 //= require_self
 

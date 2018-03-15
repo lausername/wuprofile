@@ -68,6 +68,9 @@ grails:
             maxsize: 1000
     controllers:
         defaultScope: singleton
+        upload:
+                  maxFileSize: 26214400
+                  maxRequestSize: 26214400
     converters:
         encoding: UTF-8
     views:
@@ -147,3 +150,13 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+# tag::config[]
+grails:
+    mongodb:
+        host: localhost
+        port: 27017
+        #username: ""
+        #password: ""
+        #databaseName: "mydatabase"
+# end::config[]

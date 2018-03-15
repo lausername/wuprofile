@@ -1,10 +1,17 @@
 package com.webbfontaine.wu.profile
 
-import com.webbfontaine.grails.plugins.conversation.ConversationService
+import com.webbfontaine.wu.profile.conversation.ConversationService
+import grails.gorm.transactions.Transactional
 import grails.validation.ValidationException
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 import static org.springframework.http.HttpStatus.*
 
+@Transactional
 class OrganizationController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrganizationController.class);
 
     OrganizationService organizationService
 
@@ -12,9 +19,10 @@ class OrganizationController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond organizationService.list(params), model:[organizationCount: organizationService.count()]
+    def index() {
+        Organization organization = new Organization()
+        conversationService.addToSessionStore(organization)
+        [model: organization]
     }
 
     def show(Long id) {
@@ -22,19 +30,24 @@ class OrganizationController {
     }
 
     def create() {
+        Organization organization = new Organization(params)
+        conversationService.addToSessionStore(organization)
         respond new Organization(params)
     }
 
-    def uploadFeaturedImage(Long restaurantId, Integer version, byte[] bytes, String contentType){
-        Organization organization = new Organization(params)
-
-        organization.featuredImageBytes = bytes
-        organization.featuredImageContentType = contentType
-
-        respond model: organization, view:'index'
+    def uploadFeaturedImage(){
+        Organization organization = conversationService.mergeConversationInstance()
+        if(!params?.imageFile?.filename?.isEmpty()) {
+            organization.featuredImageBytes = params.imageFile.bytes
+            organization.featuredImageContentType = params.imageFile.contentType
+        }
+        params.activeTab = 'PROFILE'
+        conversationService.addToSessionStore(organization)
+        render(view: '/organization/index', model: [orgInstance: organization])
     }
 
-    def featuredImage(Organization organization) {
+    def featuredImage() {
+        Organization organization = conversationService.mergeConversationInstance()
         if (organization == null || organization.featuredImageBytes == null) {
             notFound()
             return
@@ -121,4 +134,6 @@ class OrganizationController {
             '*'{ render status: NOT_FOUND }
         }
     }
+
+
 }

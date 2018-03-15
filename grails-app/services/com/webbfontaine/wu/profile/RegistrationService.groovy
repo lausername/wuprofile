@@ -19,6 +19,30 @@ class RegistrationService {
     }
 
     @SuppressWarnings("GrMethodMayBeStatic")
+    def addAttachment(Organization org, Map params, List<String> attTmpList = []) {
+        Integer fileCount = (fileCount(params) - 1)
+        Closure attCreation = { domain, tmpList, counter = null ->
+            String uploadFileName = getUploadFilename(params, counter)
+            String uploadFileExtension = getUploadFileExtension(params, counter) as String
+            if (uploadFileName && uploadFileExtension) {
+                AttachedFile attachment = new AttachedFile(organization: org,  )
+                org.addToAttachedFiles(attachment)
+                tmpList << attachment?.attTmpId
+            }
+            return tmpList
+        }
+        if (fileCount) {
+            (0..fileCount).each { counter ->
+                attTmpList = attCreation(org, attTmpList, counter)
+            }
+        }
+        else {
+            attTmpList = attCreation(org, attTmpList)
+        }
+        return attTmpList
+    }
+
+    @SuppressWarnings("GrMethodMayBeStatic")
     def createTempFileInformation(Map params, List attCacheList = [], List informationContainer = []) {
 
         Integer fileCount = (fileCount(params) - 1)
@@ -77,5 +101,26 @@ class RegistrationService {
         return ['fileInformation' : [(attTmpId): [ 'fileName': fileName, 'fileExtension': fileExtension, pathname: path]],
                 'tmpId'           : tmpId,
                 'documentId'      : attTmpId]
+    }
+
+
+    private static String getUploadFilename(Map param, Integer counter= null, String uploadFileName = null) {
+        Object obj = param.get(KEY_IMAGE_FILE)
+        if(counter || counter.equals(0)) {
+            uploadFileName = obj[counter].filename
+        } else {
+            uploadFileName = obj?.filename
+        }
+        return uploadFileName
+    }
+
+    private static String getUploadFileExtension(Map param, Integer counter= null, String uploadFileExtension = null) {
+        Object obj = param.get(KEY_FILE_EXTENSION)
+        if(counter || counter.equals(0)) {
+            uploadFileExtension = obj[counter]
+        } else {
+            uploadFileExtension = obj
+        }
+        return uploadFileExtension
     }
 }

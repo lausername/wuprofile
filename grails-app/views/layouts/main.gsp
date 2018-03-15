@@ -30,8 +30,12 @@
                     <g:pageProperty name="page.nav" />
                 </ul>
             </div>
+            <a href="${createLink(controller: 'organization', action: 'create')}">
+                <bootstrap:icon name="search"/>&nbsp;&nbsp;<layout:message code="services.search"/>
+            </a>
         </div>
     </div>
+
 
 <g:pageProperty name="page.application"/>
 

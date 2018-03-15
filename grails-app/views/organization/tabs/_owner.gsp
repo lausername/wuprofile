@@ -4,11 +4,11 @@
     <bootstrap:grid grid="12-12-12">
         <bootstrap:formSection>
             <bootstrap:formGroup groupSpan="1">
-            <wf:select name="module" from="${[
+            <wf:select name="salutation" from="${[
                     [key: 'MR', value: message(code: 'select.documentType.sad', default: 'MR')],
                     [key: 'MS', value: message(code: 'select.documentType.license', default: 'MS')],
                     [key: 'MRS', value: message(code: 'select.documentType.all', default: 'MRS')]]}"
-                       value="${searchCommand?.module ?: ''}"
+                       value="${orgInstance ?: ''}"
                        optionKey="key"
                        optionValue="value"
                        noSelection="['': '']"

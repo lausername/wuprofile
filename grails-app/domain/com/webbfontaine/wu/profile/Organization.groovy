@@ -45,10 +45,6 @@ class Organization implements ConfigurableFields {
         featuredImageContentType null:true
     }
 
-    def isCompany(){
-        return true
-    }
-
     @Override
     boolean isFieldMandatory(String fieldName) {
         return false
@@ -57,5 +53,21 @@ class Organization implements ConfigurableFields {
     @Override
     boolean isFieldEditable(String fieldName) {
         return true
+    }
+
+    boolean isCompany(){
+        WuConstants.COMPANY.equalsIgnoreCase(accountType)
+    }
+
+    boolean isBank(){
+        WuConstants.BANK.equalsIgnoreCase(accountType)
+    }
+
+    boolean isInsurer(){
+        WuConstants.INSURER.equalsIgnoreCase(accountType)
+    }
+
+    boolean isGovAgency(){
+        WuConstants.GOVAGENCY.equalsIgnoreCase(accountType)
     }
 }

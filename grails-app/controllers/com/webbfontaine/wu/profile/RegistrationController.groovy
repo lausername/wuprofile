@@ -4,9 +4,13 @@ class RegistrationController {
 
     OrganizationService organizationService
 
+    RegistrationService registrationService
+
+
+
     def uploadFeaturedImage(FeaturedImageCommand cmd) {
         if (cmd == null) {
-            notFound()
+//            notFound()
             return
         }
 
@@ -15,7 +19,7 @@ class RegistrationController {
             return
         }
 
-        def organization = organizationService.uploadFeatureImage(cmd)
+        def organization = organizationService.uploadFeatureImage()
 
         if (organization == null) {
 //            notFound()
